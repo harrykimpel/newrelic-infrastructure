@@ -12,4 +12,4 @@ This repo contains a couple of helper scripts and resources to deploy and manage
 
 - sql-server-instances.ps1: a PowerShell script to gather all MS SQL Server instances of a MS SQL Server environment. This script will then generate the relevant YML configuration for the New Relic third-party service integration.
 
-- AWS-RDS-NR-Custom-Policy
+- AWS-RDS-NR-Custom-Policy.json: custom AWS RDS IAM policy for New Relic cloud monitoring
