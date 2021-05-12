@@ -214,12 +214,12 @@ function transformData(logs, context) {
     parsedLogs.forEach((log) => {
         var logResourceId = log.resourceId;
         log.message = logResourceId + " ";
-        context.log.info('logResourceId: '+JSON.stringify(logResourceId))
+        //context.log.info('logResourceId: '+JSON.stringify(logResourceId))
         var logFlat = flatten(log);
         var logStr = JSON.stringify(logFlat);
         //logStr = logStr.replace("resourceId", "message");
         var logStrParsed = parseData(logStr, context);
-        context.log.info('logStrParsed: '+JSON.stringify(logStrParsed))
+        //context.log.info('logStrParsed: '+JSON.stringify(logStrParsed))
         buffer.push({ message: logStrParsed })
     });
     // Our API can parse the data in "log" to a JSON and ignore "message", so we are good!
