@@ -196,10 +196,22 @@ function transformData(logs, context) {
         //context.log.info('message: '+JSON.stringify(message))
         message.records.forEach((log) => {
             //context.log.info('log: '+JSON.stringify(log))
+            var logMetricName = log.metricName;
+            var logResourceId = log.resourceId;
+            if (logResourceId != null &&
+                logResourceId != '')
+            {
+                log.message = logResourceId + " ";
+            }
+            else if (logMetricName != null &&
+                logMetricName != '')
+            {
+                log.message = logMetricName + " ";
+            }
             var logFlat = flatten(log);
             var logStr = JSON.stringify(logFlat);
-            logStr = logStr.replace("metricName", "message");
-            logStr = logStr.replace("resourceId", "message");
+            //logStr = logStr.replace("metricName", "message");
+            //logStr = logStr.replace("resourceId", "message");
             //logStr = logStr.replace("}", "'message': '"+);
             var logStrParsed = parseData(logStr, context);
             //context.log.info('logStrParsed: '+JSON.stringify(logStrParsed))
@@ -212,8 +224,18 @@ function transformData(logs, context) {
     context.log('Type of logs: JSON Array');
     // normally should be "buffer.push(log)" but that will fail if the array mixes JSON and strings
     parsedLogs.forEach((log) => {
+        var logMetricName = log.metricName;
         var logResourceId = log.resourceId;
-        log.message = logResourceId + " ";
+        if (logResourceId != null &&
+            logResourceId != '')
+        {
+            log.message = logResourceId + " ";
+        }
+        else if (logMetricName != null &&
+            logMetricName != '')
+        {
+            log.message = logMetricName + " ";
+        }
         //context.log.info('logResourceId: '+JSON.stringify(logResourceId))
         var logFlat = flatten(log);
         var logStr = JSON.stringify(logFlat);
