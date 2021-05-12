@@ -199,9 +199,10 @@ function transformData(logs, context) {
             var logFlat = flatten(log);
             var logStr = JSON.stringify(logFlat);
             logStr = logStr.replace("metricName", "message");
-            logStr = logStr.replace("properties.message", "message");
+            logStr = logStr.replace("resourceId", "message");
+            //logStr = logStr.replace("}", "'message': '"+);
             var logStrParsed = parseData(logStr, context);
-            //context.log.info('logFlat: '+JSON.stringify(logStrParsed))
+            //context.log.info('logStrParsed: '+JSON.stringify(logStrParsed))
             buffer.push(logStrParsed);
             //buffer.push({ message: JSON.stringify(log) });
         })
@@ -210,7 +211,17 @@ function transformData(logs, context) {
     } // type JSON array
     context.log('Type of logs: JSON Array');
     // normally should be "buffer.push(log)" but that will fail if the array mixes JSON and strings
-    parsedLogs.forEach((log) => buffer.push({ message: log }));
+    parsedLogs.forEach((log) => {
+        var logResourceId = log.resourceId;
+        log.message = logResourceId + " ";
+        context.log.info('logResourceId: '+JSON.stringify(logResourceId))
+        var logFlat = flatten(log);
+        var logStr = JSON.stringify(logFlat);
+        //logStr = logStr.replace("resourceId", "message");
+        var logStrParsed = parseData(logStr, context);
+        context.log.info('logStrParsed: '+JSON.stringify(logStrParsed))
+        buffer.push({ message: logStrParsed })
+    });
     // Our API can parse the data in "log" to a JSON and ignore "message", so we are good!
     return buffer;
   }
